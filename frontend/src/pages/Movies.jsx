@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { FaFilter, FaRedo } from 'react-icons/fa';
+import { FaFilter, FaRedo, FaFilm } from 'react-icons/fa';
 import { discoverMovies, getGenres } from '../services/tmdb';
 import MovieCard from '../components/MovieCard';
 import { SkeletonGrid } from '../components/MovieCardSkeleton';
 import Pagination from '../components/Pagination';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import './Movies.css';
+
 
 /**
  * Movies Component
@@ -86,11 +87,17 @@ const Movies = () => {
     <div className="movies-page page-container container">
       {/* Header & Filter Controls Bar */}
       <div className="movies-header">
-        <div>
+        <div className="movies-header-logo-wrapper">
+          <div className="header-logo-icon">
+            <FaFilm />
+          </div>
+        </div>
+        <div className="movies-header-text">
           <h1 className="page-title">Explore Movies</h1>
           <p className="page-subtitle">Discover thousands of movies across multiple genres and release years.</p>
         </div>
       </div>
+
 
       {/* Filter Toolbar */}
       <div className="filter-toolbar glass-card">
