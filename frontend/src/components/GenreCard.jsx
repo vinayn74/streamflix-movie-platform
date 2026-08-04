@@ -23,4 +23,4 @@ export const GenreCard = ({ genre }) => {
   );
 };
 
-export default GenreCard;
+export default React.memo(GenreCard);

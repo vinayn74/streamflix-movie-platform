@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaUser, FaFilm, FaHeart, FaHistory, FaSignOutAlt } from 'react-icons/fa';
 import useAuth from '../hooks/useAuth';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 import './Profile.css';
 
 /**
@@ -8,7 +9,9 @@ import './Profile.css';
  * Shows logged in user details, statistics, and logout button powered by useAuth
  */
 const Profile = () => {
+  useDocumentTitle('My Profile');
   const { user, logout } = useAuth();
+
 
   return (
     <div className="page-container container">

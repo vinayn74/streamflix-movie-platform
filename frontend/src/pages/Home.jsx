@@ -2,18 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPlay, FaInfoCircle, FaStar, FaFire } from 'react-icons/fa';
 import { 
-  getTrendingMovies, 
-  getPopularMovies, 
-  getTopRatedMovies, 
-  getUpcomingMovies, 
-  getNowPlayingMovies,
+  getHomePageData,
   getImageUrl 
 } from '../services/tmdb';
 import MovieCarousel from '../components/MovieCarousel';
 import Modal from '../components/Modal';
-import Loader from '../components/Loader';
+import BannerSkeleton from '../components/BannerSkeleton';
 import useAuth from '../hooks/useAuth';
 import { useMovie } from '../context/MovieContext';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 import './Home.css';
 
 /**
@@ -21,6 +18,8 @@ import './Home.css';
  * Netflix/Disney+ Inspired Home Dashboard displaying Hero Feature & Movie Rows
  */
 const Home = () => {
+  useDocumentTitle('Home - Streaming Showcase');
+
   const [heroMovie, setHeroMovie] = useState(null);
   const [trending, setTrending] = useState([]);
   const [popular, setPopular] = useState([]);
@@ -34,36 +33,36 @@ const Home = () => {
   const { history, continueWatching } = useMovie();
 
   useEffect(() => {
+    let isMounted = true;
     const fetchHomeData = async () => {
       setLoading(true);
-      const [trendingRes, popularRes, topRatedRes, upcomingRes, nowPlayingRes] = await Promise.all([
-        getTrendingMovies('day'),
-        getPopularMovies(1),
-        getTopRatedMovies(1),
-        getUpcomingMovies(1),
-        getNowPlayingMovies(1)
-      ]);
+      const data = await getHomePageData();
+      if (!isMounted) return;
 
-      setTrending(trendingRes);
-      setPopular(popularRes);
-      setTopRated(topRatedRes);
-      setUpcoming(upcomingRes);
-      setNowPlaying(nowPlayingRes);
+      setTrending(data.trending || []);
+      setPopular(data.popular || []);
+      setTopRated(data.topRated || []);
+      setUpcoming(data.upcoming || []);
+      setNowPlaying(data.nowPlaying || []);
 
       // Select featured hero movie
-      if (trendingRes && trendingRes.length > 0) {
-        setHeroMovie(trendingRes[0]);
+      if (data.trending && data.trending.length > 0) {
+        setHeroMovie(data.trending[0]);
       }
       setLoading(false);
     };
 
     fetchHomeData();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   if (loading) {
+
     return (
       <div className="page-container container">
-        <Loader type="spinner" />
+        <BannerSkeleton />
       </div>
     );
   }

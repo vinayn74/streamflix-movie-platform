@@ -109,15 +109,67 @@ const tmdbApi = axios.create({
   },
 });
 
-// Helper wrapper handling TMDB requests with fallback resilience
+const CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutes cache
+const memoryCache = new Map();
+
+const getCacheKey = (endpoint, params) => `${endpoint}:${JSON.stringify(params)}`;
+
+// Helper wrapper handling TMDB requests with 15-minute caching & fallback resilience
 const fetchTMDB = async (endpoint, params = {}) => {
+  const cacheKey = getCacheKey(endpoint, params);
+  const now = Date.now();
+
+  // 1. Check in-memory cache
+  if (memoryCache.has(cacheKey)) {
+    const cached = memoryCache.get(cacheKey);
+    if (now - cached.timestamp < CACHE_TTL_MS) {
+      return cached.data;
+    }
+    memoryCache.delete(cacheKey);
+  }
+
+  // 2. Check localStorage cache
+  try {
+    const local = localStorage.getItem(`tmdb_cache_${cacheKey}`);
+    if (local) {
+      const parsed = JSON.parse(local);
+      if (now - parsed.timestamp < CACHE_TTL_MS) {
+        memoryCache.set(cacheKey, parsed);
+        return parsed.data;
+      }
+    }
+  } catch (e) {
+    // Ignore storage read error
+  }
+
+  // 3. Perform network call
   try {
     const response = await tmdbApi.get(endpoint, { params });
-    return response.data;
+    const data = response.data;
+    const cacheObj = { timestamp: now, data };
+    memoryCache.set(cacheKey, cacheObj);
+    try {
+      localStorage.setItem(`tmdb_cache_${cacheKey}`, JSON.stringify(cacheObj));
+    } catch (e) {
+      // Ignore quota full
+    }
+    return data;
   } catch (error) {
     console.warn(`TMDB API call to ${endpoint} failed, utilizing curated dataset:`, error.message);
     return null;
   }
+};
+
+// Concurrent batch loader for Homepage
+export const getHomePageData = async () => {
+  const [trending, popular, topRated, upcoming, nowPlaying] = await Promise.all([
+    getTrendingMovies('week'),
+    getPopularMovies(1),
+    getTopRatedMovies(1),
+    getUpcomingMovies(1),
+    getNowPlayingMovies(1)
+  ]);
+  return { trending, popular, topRated, upcoming, nowPlaying };
 };
 
 // 1. Fetch Trending Movies

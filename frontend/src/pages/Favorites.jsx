@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaHeart, FaSearch, FaTrashAlt } from 'react-icons/fa';
 import { useMovie } from '../context/MovieContext';
 import MovieCard from '../components/MovieCard';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 import './Favorites.css';
 
 /**
@@ -10,8 +11,10 @@ import './Favorites.css';
  * User's personal collection of favorite movies powered by MovieContext
  */
 const Favorites = () => {
+  useDocumentTitle('My Favorites');
   const { favorites, toggleFavorite } = useMovie();
   const [filterText, setFilterText] = useState('');
+
 
   const filteredFavorites = favorites.filter((movie) =>
     movie.title.toLowerCase().includes(filterText.toLowerCase())

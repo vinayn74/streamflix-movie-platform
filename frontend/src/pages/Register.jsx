@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaFilm } from 'react-icons/fa';
 import useAuth from '../hooks/useAuth';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 import './Register.css';
 
 /**
@@ -9,8 +10,10 @@ import './Register.css';
  * Powered by AuthContext API & custom useAuth hook
  */
 const Register = ({ onRegisterSuccess }) => {
+  useDocumentTitle('Create Account');
   const [searchParams] = useSearchParams();
   const initialEmail = searchParams.get('email') || '';
+
 
   const [formData, setFormData] = useState({
     name: '',

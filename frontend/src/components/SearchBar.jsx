@@ -34,7 +34,7 @@ export const SearchBar = ({ initialQuery = '', onSearch }) => {
       const data = await searchMovies(query.trim());
       setSuggestions(data.results.slice(0, 5));
       setIsSearching(false);
-    }, 350);
+    }, 300);
 
     return () => clearTimeout(timer);
   }, [query]);
@@ -174,4 +174,5 @@ export const SearchBar = ({ initialQuery = '', onSearch }) => {
   );
 };
 
-export default SearchBar;
+export default React.memo(SearchBar);
+

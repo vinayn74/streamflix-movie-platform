@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useMemo, useCallback } from 'react';
 import API from '../services/api';
 
 // Create Auth Context
@@ -25,7 +25,6 @@ export const AuthProvider = ({ children }) => {
           setToken(storedToken);
         } catch (err) {
           console.warn('Session expired or backend unavailable:', err?.response?.data?.message || err.message);
-          // Fallback to local stored user snapshot if offline/backend starting
           const savedUser = localStorage.getItem('streamflix_user');
           if (savedUser) {
             setUser(JSON.parse(savedUser));
@@ -41,7 +40,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Register User
-  const register = async (name, email, password) => {
+  const register = useCallback(async (name, email, password) => {
     setError(null);
     try {
       const res = await API.post('/auth/register', { name, email, password });
@@ -58,10 +57,10 @@ export const AuthProvider = ({ children }) => {
       setError(errorMsg);
       return { success: false, error: errorMsg };
     }
-  };
+  }, []);
 
   // Login User
-  const login = async (email, password) => {
+  const login = useCallback(async (email, password) => {
     setError(null);
     try {
       const res = await API.post('/auth/login', { email, password });
@@ -78,41 +77,42 @@ export const AuthProvider = ({ children }) => {
       setError(errorMsg);
       return { success: false, error: errorMsg };
     }
-  };
+  }, []);
 
   // Logout User
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem('streamflix_token');
     localStorage.removeItem('streamflix_user');
     setToken(null);
     setUser(null);
     setError(null);
-  };
+  }, []);
 
-  // Update user state helper (for watchlist/favorites changes in later phases)
-  const updateUser = (updatedData) => {
+  // Update user state helper
+  const updateUser = useCallback((updatedData) => {
     setUser((prev) => {
       const newObj = { ...prev, ...updatedData };
       localStorage.setItem('streamflix_user', JSON.stringify(newObj));
       return newObj;
     });
-  };
+  }, []);
+
+  const value = useMemo(() => ({
+    user,
+    token,
+    loading,
+    error,
+    register,
+    login,
+    logout,
+    updateUser,
+    isAuthenticated: !!token,
+  }), [user, token, loading, error, register, login, logout, updateUser]);
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        token,
-        loading,
-        error,
-        register,
-        login,
-        logout,
-        updateUser,
-        isAuthenticated: !!token,
-      }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
 };
+

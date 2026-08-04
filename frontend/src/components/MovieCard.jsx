@@ -37,6 +37,11 @@ export const MovieCard = ({ movie }) => {
             alt={movie.title} 
             className="movie-poster-img"
             loading="lazy" 
+            decoding="async"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=800&auto=format&fit=crop';
+            }}
           />
           <div className="movie-card-overlay">
             {/* Action Buttons */}

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import MovieCard from './MovieCard';
-import Loader from './Loader';
+import { MovieCardSkeleton } from './MovieCardSkeleton';
 import './MovieCarousel.css';
 
 /**
@@ -45,7 +45,13 @@ export const MovieCarousel = ({ title, movies = [], loading = false, onToggleFav
       </div>
 
       {loading ? (
-        <Loader type="skeleton" count={5} />
+        <div className="carousel-row">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div key={index} className="carousel-item">
+              <MovieCardSkeleton />
+            </div>
+          ))}
+        </div>
       ) : (
         <div className="carousel-row" ref={rowRef}>
           {movies.map((movie) => (
@@ -63,4 +69,5 @@ export const MovieCarousel = ({ title, movies = [], loading = false, onToggleFav
   );
 };
 
-export default MovieCarousel;
+export default React.memo(MovieCarousel);
+

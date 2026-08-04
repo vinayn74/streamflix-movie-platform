@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaBookmark, FaSearch } from 'react-icons/fa';
 import { useMovie } from '../context/MovieContext';
 import MovieCard from '../components/MovieCard';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 import './Watchlist.css';
 
 /**
@@ -10,8 +11,10 @@ import './Watchlist.css';
  * User's personal collection of saved watchlist movies powered by MovieContext
  */
 const Watchlist = () => {
+  useDocumentTitle('My Watchlist');
   const { watchlist } = useMovie();
   const [filterText, setFilterText] = useState('');
+
 
   const filteredWatchlist = watchlist.filter((movie) =>
     movie.title.toLowerCase().includes(filterText.toLowerCase())

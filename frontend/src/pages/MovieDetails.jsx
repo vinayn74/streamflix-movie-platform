@@ -20,8 +20,9 @@ import {
 import MovieCarousel from '../components/MovieCarousel';
 import Modal from '../components/Modal';
 import Rating from '../components/Rating';
-import Loader from '../components/Loader';
+import BannerSkeleton from '../components/BannerSkeleton';
 import useAuth from '../hooks/useAuth';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 import './MovieDetails.css';
 
 /**
@@ -36,6 +37,9 @@ const MovieDetails = () => {
   const [similar, setSimilar] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isTrailerOpen, setIsTrailerOpen] = useState(false);
+
+  useDocumentTitle(movie ? movie.title : 'Movie Spotlight');
+
 
   const { user } = useAuth();
 
@@ -64,7 +68,7 @@ const MovieDetails = () => {
   if (loading) {
     return (
       <div className="page-container container">
-        <Loader type="spinner" />
+        <BannerSkeleton />
       </div>
     );
   }

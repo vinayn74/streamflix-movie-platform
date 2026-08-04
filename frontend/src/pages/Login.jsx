@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaFilm, FaGoogle, FaGithub } from 'react-icons/fa';
 import useAuth from '../hooks/useAuth';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 import './Login.css';
 
 /**
@@ -9,7 +10,9 @@ import './Login.css';
  * Powered by AuthContext API & custom useAuth hook
  */
 const Login = ({ onLoginSuccess }) => {
+  useDocumentTitle('Sign In');
   const [formData, setFormData] = useState({
+
     email: '',
     password: '',
     rememberMe: false

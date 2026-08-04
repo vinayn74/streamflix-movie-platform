@@ -3,8 +3,9 @@ import { useSearchParams } from 'react-router-dom';
 import { searchMovies } from '../services/tmdb';
 import SearchBar from '../components/SearchBar';
 import MovieCard from '../components/MovieCard';
+import { SkeletonGrid } from '../components/MovieCardSkeleton';
 import Pagination from '../components/Pagination';
-import Loader from '../components/Loader';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 import './SearchResults.css';
 
 /**
@@ -15,6 +16,8 @@ const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
 
+  useDocumentTitle(query ? `Search: ${query}` : 'Search Movies');
+
   const [movies, setMovies] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
@@ -23,10 +26,12 @@ const SearchResults = () => {
 
   useEffect(() => {
     if (!query) return;
+    let isMounted = true;
 
     const performSearch = async () => {
       setLoading(true);
       const data = await searchMovies(query, page);
+      if (!isMounted) return;
       setMovies(data.results || []);
       setTotalResults(data.total_results || (data.results ? data.results.length : 0));
       setTotalPages(Math.min(data.total_pages || 1, 20));
@@ -34,6 +39,9 @@ const SearchResults = () => {
     };
 
     performSearch();
+    return () => {
+      isMounted = false;
+    };
   }, [query, page]);
 
   return (
@@ -55,7 +63,7 @@ const SearchResults = () => {
 
       {/* Content */}
       {loading ? (
-        <Loader type="skeleton" count={8} />
+        <SkeletonGrid count={8} />
       ) : movies.length > 0 ? (
         <>
           <div className="movies-grid">

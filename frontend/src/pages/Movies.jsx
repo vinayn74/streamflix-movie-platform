@@ -3,8 +3,9 @@ import { useSearchParams } from 'react-router-dom';
 import { FaFilter, FaRedo } from 'react-icons/fa';
 import { discoverMovies, getGenres } from '../services/tmdb';
 import MovieCard from '../components/MovieCard';
+import { SkeletonGrid } from '../components/MovieCardSkeleton';
 import Pagination from '../components/Pagination';
-import Loader from '../components/Loader';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 import './Movies.css';
 
 /**
@@ -12,6 +13,8 @@ import './Movies.css';
  * Browse and filter movies by Genre, Release Year, Rating, and Popularity
  */
 const Movies = () => {
+  useDocumentTitle('Explore Movies');
+
   const [searchParams, setSearchParams] = useSearchParams();
   const initialGenre = searchParams.get('genre') || '';
 
@@ -46,21 +49,26 @@ const Movies = () => {
 
   // Fetch Filtered Movies
   useEffect(() => {
+    let isMounted = true;
     const fetchMovies = async () => {
       setLoading(true);
       const data = await discoverMovies({ ...filters, page });
+      if (!isMounted) return;
       setMovies(data.results || []);
-      setTotalPages(Math.min(data.total_pages || 1, 20)); // Cap to 20 pages
+      setTotalPages(Math.min(data.total_pages || 1, 20));
       setLoading(false);
     };
 
     fetchMovies();
+    return () => {
+      isMounted = false;
+    };
   }, [filters, page]);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
-    setPage(1); // Reset to first page when filter changes
+    setPage(1);
   };
 
   const handleResetFilters = () => {
@@ -151,7 +159,7 @@ const Movies = () => {
 
       {/* Movies Grid */}
       {loading ? (
-        <Loader type="skeleton" count={12} />
+        <SkeletonGrid count={12} />
       ) : movies.length > 0 ? (
         <>
           <div className="movies-grid">

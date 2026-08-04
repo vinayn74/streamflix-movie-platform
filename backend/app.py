@@ -20,6 +20,12 @@ def create_app(config_class=Config):
         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     )
 
+    try:
+        from flask_compress import Compress
+        Compress(app)
+    except ImportError:
+        pass
+
     # Register Blueprints
     app.register_blueprint(auth_bp)
     app.register_blueprint(user_bp)

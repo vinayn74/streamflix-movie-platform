@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import API from '../services/api';
 import useAuth from '../hooks/useAuth';
 
@@ -59,12 +59,12 @@ export const MovieProvider = ({ children }) => {
   }, [continueWatching]);
 
   // Checkers
-  const isFavorite = (movieId) => favorites.some((m) => m.id === Number(movieId));
-  const inWatchlist = (movieId) => watchlist.some((m) => m.id === Number(movieId));
+  const isFavorite = useCallback((movieId) => favorites.some((m) => m.id === Number(movieId)), [favorites]);
+  const inWatchlist = useCallback((movieId) => watchlist.some((m) => m.id === Number(movieId)), [watchlist]);
 
   // Toggle Favorite
-  const toggleFavorite = async (movie) => {
-    const exists = isFavorite(movie.id);
+  const toggleFavorite = useCallback(async (movie) => {
+    const exists = favorites.some((m) => m.id === Number(movie.id));
     let updated;
     if (exists) {
       updated = favorites.filter((m) => m.id !== Number(movie.id));
@@ -80,11 +80,11 @@ export const MovieProvider = ({ children }) => {
         console.warn('Sync favorite error:', err.message);
       }
     }
-  };
+  }, [favorites, isAuthenticated]);
 
   // Toggle Watchlist
-  const toggleWatchlist = async (movie) => {
-    const exists = inWatchlist(movie.id);
+  const toggleWatchlist = useCallback(async (movie) => {
+    const exists = watchlist.some((m) => m.id === Number(movie.id));
     let updated;
     if (exists) {
       updated = watchlist.filter((m) => m.id !== Number(movie.id));
@@ -100,10 +100,10 @@ export const MovieProvider = ({ children }) => {
         console.warn('Sync watchlist error:', err.message);
       }
     }
-  };
+  }, [watchlist, isAuthenticated]);
 
   // Add to History
-  const addToHistory = async (movie) => {
+  const addToHistory = useCallback(async (movie) => {
     const updated = [movie, ...history.filter((m) => m.id !== Number(movie.id))].slice(0, 20);
     setHistory(updated);
 
@@ -114,10 +114,10 @@ export const MovieProvider = ({ children }) => {
         console.warn('Sync history error:', err.message);
       }
     }
-  };
+  }, [history, isAuthenticated]);
 
   // Update Continue Watching
-  const updateContinueWatching = async (movie, progress = 50) => {
+  const updateContinueWatching = useCallback(async (movie, progress = 50) => {
     const updatedItem = { ...movie, progress, updatedAt: new Date() };
     const updated = [updatedItem, ...continueWatching.filter((m) => m.id !== Number(movie.id))];
     setContinueWatching(updated);
@@ -129,23 +129,34 @@ export const MovieProvider = ({ children }) => {
         console.warn('Sync continue watching error:', err.message);
       }
     }
-  };
+  }, [continueWatching, isAuthenticated]);
+
+  const value = useMemo(() => ({
+    favorites,
+    watchlist,
+    history,
+    continueWatching,
+    isFavorite,
+    inWatchlist,
+    toggleFavorite,
+    toggleWatchlist,
+    addToHistory,
+    updateContinueWatching,
+  }), [
+    favorites,
+    watchlist,
+    history,
+    continueWatching,
+    isFavorite,
+    inWatchlist,
+    toggleFavorite,
+    toggleWatchlist,
+    addToHistory,
+    updateContinueWatching,
+  ]);
 
   return (
-    <MovieContext.Provider
-      value={{
-        favorites,
-        watchlist,
-        history,
-        continueWatching,
-        isFavorite,
-        inWatchlist,
-        toggleFavorite,
-        toggleWatchlist,
-        addToHistory,
-        updateContinueWatching,
-      }}
-    >
+    <MovieContext.Provider value={value}>
       {children}
     </MovieContext.Provider>
   );
@@ -161,3 +172,4 @@ export const useMovie = () => {
 };
 
 export default MovieContext;
+
