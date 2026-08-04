@@ -1,0 +1,115 @@
+.movies-page {
+  padding-top: 20px;
+  padding-bottom: 60px;
+}
+
+.movies-header {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.page-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.filter-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.filter-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.filter-icon {
+  color: var(--accent-red);
+}
+
+.filter-inputs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.filter-select {
+  background: var(--bg-card-hover);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.filter-select:hover, .filter-select:focus {
+  border-color: var(--accent-red);
+}
+
+.filter-select option {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.reset-filter-btn {
+  padding: 9px 16px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 24px;
+}
+
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  margin-top: 20px;
+}
+
+.no-results h2 {
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+}
+
+.no-results p {
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .filter-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .filter-inputs {
+    width: 100%;
+  }
+  .filter-select {
+    flex: 1 1 45%;
+  }
+}

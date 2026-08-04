@@ -1,0 +1,13 @@
+.watchlist-page {
+  padding-top: 20px;
+  padding-bottom: 60px;
+}
+
+.bookmark-icon {
+  color: #00d26a;
+}
+
+.bookmark-circle {
+  background: rgba(0, 210, 106, 0.15) !important;
+  color: #00d26a !important;
+}

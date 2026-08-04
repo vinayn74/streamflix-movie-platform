@@ -1,0 +1,261 @@
+.movie-details-page {
+  padding-bottom: 60px;
+}
+
+.details-hero {
+  position: relative;
+  width: 100%;
+  min-height: 70vh;
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  padding: 40px 0 60px 0;
+  margin-bottom: 40px;
+}
+
+.details-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(15, 16, 20, 0.7) 0%,
+    rgba(15, 16, 20, 0.88) 70%,
+    var(--bg-dark) 100%
+  );
+}
+
+.details-hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 600;
+  margin-bottom: 24px;
+  transition: color 0.2s ease;
+}
+
+.back-link:hover {
+  color: var(--accent-red);
+}
+
+.details-main-flex {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.details-poster-card {
+  flex: 0 0 280px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.details-poster-card img {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
+
+.details-play-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 0;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.details-info-body {
+  flex: 1;
+}
+
+.details-title {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  color: #ffffff;
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+
+.details-tagline {
+  font-style: italic;
+  color: var(--accent-gold);
+  font-size: 1.1rem;
+  margin-bottom: 18px;
+}
+
+.details-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  background: var(--bg-card);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--glass-border);
+}
+
+.pill-icon {
+  color: var(--accent-red);
+}
+
+.quality-pill {
+  color: #00d26a;
+  border-color: rgba(0, 210, 106, 0.4);
+  font-weight: 700;
+}
+
+.genre-pills {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.genre-tag {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.genre-tag:hover {
+  background: var(--accent-red);
+  color: #ffffff;
+}
+
+.details-section h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.details-overview-text {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 24px;
+}
+
+.crew-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-card);
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  display: inline-flex;
+}
+
+.crew-icon {
+  font-size: 1.4rem;
+  color: var(--accent-red);
+}
+
+.crew-role {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.crew-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Cast Grid */
+.cast-section {
+  margin-bottom: 40px;
+}
+
+.cast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.cast-card {
+  padding: 12px;
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.cast-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin: 0 auto 10px auto;
+  overflow: hidden;
+  background: var(--bg-card-hover);
+}
+
+.cast-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--accent-red);
+  background: rgba(229, 9, 20, 0.15);
+}
+
+.cast-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.cast-character {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .details-main-flex {
+    flex-direction: column;
+    align-items: center;
+  }
+  .details-poster-card {
+    width: 220px;
+    flex: none;
+  }
+}

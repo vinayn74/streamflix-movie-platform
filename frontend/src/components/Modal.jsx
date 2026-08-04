@@ -1,0 +1,41 @@
+import React, { useEffect } from 'react';
+import { FaTimes } from 'react-icons/fa';
+import './Modal.css';
+
+/**
+ * Modal Component
+ * Accessible popup dialog overlay for video playback or alerts
+ */
+export const Modal = ({ isOpen, onClose, title, children }) => {
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content glass-card" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          {title && <h3>{title}</h3>}
+          <button className="modal-close-btn" onClick={onClose} aria-label="Close modal">
+            <FaTimes />
+          </button>
+        </div>
+        <div className="modal-body">{children}</div>
+      </div>
+    </div>
+  );
+};
+
+export default Modal;

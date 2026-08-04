@@ -1,0 +1,14 @@
+.genres-page {
+  padding-top: 20px;
+  padding-bottom: 60px;
+}
+
+.genres-header {
+  margin-bottom: 30px;
+}
+
+.genres-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+}
