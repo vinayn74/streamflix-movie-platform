@@ -74,8 +74,8 @@ const Footer = () => {
               <li><span>React (Vite)</span></li>
               <li><span>React Router DOM</span></li>
               <li><span>TMDB API</span></li>
-              <li><span>Node.js / Express</span></li>
-              <li><span>MongoDB & JWT</span></li>
+              <li><span>Python / Flask</span></li>
+              <li><span>MySQL & JWT</span></li>
             </ul>
           </div>
         </div>
