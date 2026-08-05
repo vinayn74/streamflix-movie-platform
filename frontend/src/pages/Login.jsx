@@ -147,14 +147,14 @@ const Login = ({ onLoginSuccess }) => {
         </div>
 
         {/* Social Auth */}
-        <div className="social-auth-buttons">
+        {/* <div className="social-auth-buttons">
           <button className="btn btn-secondary social-btn">
             <FaGoogle className="google-icon" /> Google
           </button>
           <button className="btn btn-secondary social-btn">
             <FaGithub /> GitHub
           </button>
-        </div>
+        </div> */}
 
         {/* Footer Toggle Link */}
         <div className="auth-footer">

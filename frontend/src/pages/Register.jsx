@@ -171,7 +171,7 @@ const Register = ({ onRegisterSuccess }) => {
           </div>
 
           {/* Terms Checkbox */}
-          <div className="form-options">
+          {/* <div className="form-options">
             <label className="remember-label">
               <input
                 type="checkbox"
@@ -181,7 +181,7 @@ const Register = ({ onRegisterSuccess }) => {
               />
               <span>I agree to the <a href="#terms" className="forgot-link">Terms of Service</a> & <a href="#privacy" className="forgot-link">Privacy Policy</a></span>
             </label>
-          </div>
+          </div> */}
 
           {/* Submit Button */}
           <button type="submit" className="btn btn-primary auth-submit-btn" disabled={isLoading}>
