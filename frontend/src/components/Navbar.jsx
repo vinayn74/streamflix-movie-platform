@@ -33,7 +33,7 @@ const Navbar = () => {
   // Scroll listener to add background depth on scroll
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 40) {
+      if (window.scrollY > 10) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
