@@ -44,31 +44,8 @@ export const MovieCard = ({ movie }) => {
             }}
           />
           <div className="movie-card-overlay">
-            {/* Action Buttons */}
+            {/* Top Right Actions Stack (Watchlist on top, Favorite underneath) */}
             <div className="movie-actions">
-              <button 
-                className={`action-btn fav-btn ${favoriteActive ? 'active' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleFavorite(movie);
-                }}
-                title={favoriteActive ? 'Remove from Favorites' : 'Add to Favorites'}
-              >
-                <FaHeart />
-              </button>
-
-              <button 
-                className="play-btn-circle" 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  addToHistory(movie);
-                  setIsTrailerOpen(true);
-                }}
-                title="Watch Trailer"
-              >
-                <FaPlay className="play-icon" />
-              </button>
-
               <button 
                 className={`action-btn watch-btn ${watchlistActive ? 'active' : ''}`}
                 onClick={(e) => {
@@ -79,8 +56,33 @@ export const MovieCard = ({ movie }) => {
               >
                 <FaBookmark />
               </button>
+
+              <button 
+                className={`action-btn fav-btn ${favoriteActive ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleFavorite(movie);
+                }}
+                title={favoriteActive ? 'Remove from Favorites' : 'Add to Favorites'}
+              >
+                <FaHeart />
+              </button>
             </div>
 
+            {/* Play Button in Center */}
+            <button 
+              className="play-btn-circle" 
+              onClick={(e) => {
+                e.stopPropagation();
+                addToHistory(movie);
+                setIsTrailerOpen(true);
+              }}
+              title="Watch Trailer"
+            >
+              <FaPlay className="play-icon" />
+            </button>
+
+            {/* View Details Link */}
             <Link to={`/movie/${movie.id}`} className="details-overlay-link">
               <span>View Details</span>
             </Link>
